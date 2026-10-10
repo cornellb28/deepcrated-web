@@ -76,9 +76,7 @@ export const SECTIONS: Section[] = [
       },
       {
         type: 'p',
-        // TODO(legal): storage provider changes from Cloudflare R2 to Backblaze B2
-        // when the B2 storage work lands; update this section and section 4 then.
-        text: '2.6 Cloud sync and mobile (paid plans). We store your library\'s track details (title, artist, tags, BPM, key, notes and similar metadata), crates, and artwork thumbnails. On any paid plan, if you use cloud audio storage, we also store copies of your audio files and smaller listening versions for the mobile app, in Cloudflare R2 storage.'
+        text: '2.6 Cloud sync and mobile (paid plans). We store your library\'s track details (title, artist, tags, BPM, key, notes and similar metadata), crates, and artwork thumbnails. On any paid plan, if you use cloud audio storage, we also store copies of your audio files and smaller listening versions for the mobile app, in Backblaze B2 storage.'
       },
       {
         type: 'p',
@@ -148,7 +146,7 @@ export const SECTIONS: Section[] = [
         items: [
           'Supabase: accounts, authentication and database. Hosted in the United States (AWS us-east-1).',
           'Stripe: payments and subscriptions.',
-          'Cloudflare: storage of cloud library files (R2).',
+          'Backblaze: storage of cloud library files (B2).',
           'Vercel: website hosting, Web Analytics and Speed Insights.',
           'Loops: waitlist email. It receives your email address, the source and a user group.',
           'Google: only if you choose Sign in with Google.',
@@ -216,7 +214,7 @@ export const SECTIONS: Section[] = [
     blocks: [
       {
         type: 'p',
-        text: 'Our database and authentication provider (Supabase) stores data in the United States (AWS us-east-1). [CONFIRM: regions for Vercel, Cloudflare R2 and Loops] If you use DeepCrated from outside the US, your information will be transferred to and processed in the US.'
+        text: 'Our database and authentication provider (Supabase) stores data in the United States (AWS us-east-1). [CONFIRM: regions for Vercel, Backblaze B2 and Loops] If you use DeepCrated from outside the US, your information will be transferred to and processed in the US.'
       }
     ]
   },
