@@ -7,6 +7,38 @@ Vercel, sharing one Supabase project with the `cratecloud-v3` desktop app.
 thing that exists: the cloud sync / mobile subscription. It is also the only
 place a Stripe secret or a Supabase service-role key is allowed to live.
 
+## Migration ownership
+
+**This repo (`deepcrated-web`) owns all Supabase migrations for DeepCrated**,
+for the one Supabase project shared by the website, the desktop app and mobile.
+New migrations go in `supabase/migrations/` here, and are applied from here with
+`supabase db push`.
+
+Not yet done (see the move list below): the `stats_events` migrations still
+exist only in the desktop repo. Nothing has been moved or created for this note.
+
+TODO(migrations): moving `stats_events` here involves:
+
+1. **The migration files:** `20261006000000_stats_events.sql` and
+   `20261006000100_stats_events_canonical_id.sql`, currently in the desktop
+   repo's `supabase/migrations/`. Keep their timestamps. The remote database
+   already has the tables, so after copying they must be marked applied with
+   `supabase migration repair --status applied <version>`, not pushed again.
+2. **Its insert-only policy:** inside the first file. `anon` gets `INSERT` on
+   `public.stats_events` and nothing else (RLS on, one `stats_events_anon_insert`
+   policy, no grant to `authenticated`, no link to an account). It moves with
+   the file, and must not be loosened in transit.
+3. **The test that checks it:** `tests/unit/stats-schema.spec.ts` in the desktop
+   repo. It reads `supabase/migrations/*_stats_events*.sql` from the desktop
+   repo root and checks that the SQL `event_type` CHECK lists match the
+   allowlist in `src/main/stats/schema.ts`, that the canonical-id migration
+   covers exactly the track-scoped events, and that anon has INSERT only. After
+   the move that test has to point at this repo's migration files (or be
+   mirrored here) so the allowlist cannot drift from the database.
+4. **The other desktop copies:** the entitlements migrations here are 0-byte
+   placeholders and the real SQL is in the desktop repo; they need the same
+   treatment so there is one copy of each.
+
 ## How the two halves fit
 
 ```
@@ -21,9 +53,8 @@ own-row SELECT only                   Stripe secret key
 
 Neither half calls the other. They meet at one Postgres row:
 `public.entitlements`, one per account, created at signup by a database
-trigger. Its migrations live in the **desktop** repo at
-`cratecloud-v3/supabase/migrations/` — that is still the source of truth for
-the schema. This repo only reads and writes it.
+trigger. This repo owns the schema; see "Migration ownership" below. The webhook and the
+website read and write it.
 
 The Stripe webhook is the sole writer of `plan` and `status`. There is
 deliberately no INSERT or UPDATE policy for authenticated users: a client

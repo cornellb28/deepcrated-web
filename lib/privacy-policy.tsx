@@ -33,7 +33,7 @@ export const SUMMARY: string[] = [
   'The DeepCrated desktop app is local-first. Your music files and library stay on your computer unless you choose to use cloud sync or mobile.',
   'Signing in is optional. You only need an account for cloud sync and the mobile app.',
   'Two settings in the desktop app can send data off your device, and both are your choice: "Identify tracks online" and "Contribute anonymous stats". Both are off by default.',
-  'If you subscribe to a cloud plan, we store your library details and, on the Library and Touring plans, your audio files, so you can sync and listen on mobile.',
+  'If you subscribe to a cloud plan, we store your library details and, if you use cloud audio storage, copies of your audio files, so you can sync and listen on mobile.',
   'We do not sell your personal information. [CONFIRM: owner approves this statement]'
 ]
 
@@ -76,7 +76,9 @@ export const SECTIONS: Section[] = [
       },
       {
         type: 'p',
-        text: '2.6 Cloud sync and mobile (paid plans). We store your library\'s track details (title, artist, tags, BPM, key, notes and similar metadata), crates, and artwork thumbnails. On the Library and Touring plans we also store copies of your audio files and smaller listening versions for the mobile app, in Cloudflare R2 storage.'
+        // TODO(legal): storage provider changes from Cloudflare R2 to Backblaze B2
+        // when the B2 storage work lands; update this section and section 4 then.
+        text: '2.6 Cloud sync and mobile (paid plans). We store your library\'s track details (title, artist, tags, BPM, key, notes and similar metadata), crates, and artwork thumbnails. On any paid plan, if you use cloud audio storage, we also store copies of your audio files and smaller listening versions for the mobile app, in Cloudflare R2 storage.'
       },
       {
         type: 'p',
@@ -89,6 +91,37 @@ export const SECTIONS: Section[] = [
       {
         type: 'p',
         text: '2.9 Waitlist. If you join the waitlist we collect your email address, and, if you choose to give them, what kind of DJ you are and the DJ software you use. The DJ type and software are stored only in our own database. Your email address, the source ("waitlist") and a user group are also sent to Loops, our email provider, so we can send you waitlist updates and launch news.'
+      }
+    ]
+  },
+  {
+    id: 'synced-music-identifiers',
+    title: 'Music identifiers that sync with your account',
+    blocks: [
+      // TODO(legal): DRAFT wording for owner review. The cloud sync schema for
+      // these identifiers is not built yet, so everything here describes the
+      // planned design. Re-check each statement against the real tables and
+      // RLS policies before this section is published.
+      {
+        type: 'p',
+        text: 'When cloud sync is on, these identifiers sync with your account for each track:'
+      },
+      {
+        type: 'ul',
+        items: [
+          'The ISRC (a standard recording code), if the track has one.',
+          'The MusicBrainz recording ID.',
+          'Where each ID came from: the file\'s own tags, or an online lookup.',
+          'A per-account keyed hash of the track\'s audio fingerprint. We sync this hash, not the raw fingerprint.'
+        ]
+      },
+      {
+        type: 'p',
+        text: 'ISRC and MusicBrainz recording IDs are public identifiers. A large enough set of them could single out a particular library.'
+      },
+      {
+        type: 'p',
+        text: 'Nothing is shared between users. Each user can read only their own rows.'
       }
     ]
   },
@@ -138,7 +171,7 @@ export const SECTIONS: Section[] = [
           'Use the desktop app without an account.',
           'Turn "Identify tracks online" and "Contribute anonymous stats" on or off at any time in Settings > Privacy.',
           'Sign out at any time, which removes the saved session from your device.',
-          'Remove tracks from the cloud. This permanently deletes them from our storage and cannot be undone.',
+          'Remove tracks from the cloud. They are permanently deleted from our storage 14 days after you delete them.',
           'Cancel your subscription at any time from your account.',
           'Unsubscribe from emails using the link in any email.'
         ]
@@ -149,14 +182,17 @@ export const SECTIONS: Section[] = [
     id: 'how-long-we-keep-information',
     title: 'How long we keep information',
     blocks: [
-      // TODO(legal): the cloud retention pipeline described below (read-only
-      // period, reminders, deletion) is NOT built yet. Keep this text only
+      // TODO(legal): DRAFT retention periods (14 / 60 / 60 days) for owner
+      // review. The cloud retention pipeline described below (read-only
+      // period, deletion) is NOT built yet. Keep this text only
       // while it is the plan, and re-check it before launch.
       {
         type: 'ul',
         items: [
           'Account and subscription records: while your account exists, and as needed afterwards for tax, accounting and legal reasons.',
-          'Cloud library data and audio: while your subscription is active. If it ends, your cloud data stays read-only for 30 days, with reminders 7 days and 1 day before deletion, then is permanently deleted.',
+          'Tracks you delete: removed from the cloud after 14 days.',
+          'After you cancel: your files stay in the cloud, read-only, for 60 days, then are permanently deleted.',
+          'Deleted accounts: removed after 60 days. You can ask us to delete your account and data immediately.',
           'Information you delete in the app or ask us to delete: removed from active systems promptly, and from backups within [CONFIRM: backup retention].',
           'Server logs: [CONFIRM: log retention].',
           'Anonymous stats: [CONFIRM: stats retention].'
