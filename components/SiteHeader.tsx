@@ -4,7 +4,7 @@ import { BRAND } from '@/lib/site'
 import { AccountChip, AccountChipSkeleton } from '@/components/AccountChip'
 
 const LINKS = [
-  // TODO(home): restore { href: '/#features', label: 'Features' } when "/" stops redirecting to /waitlist.
+  { href: '/#features', label: 'Features' },
   { href: '/cloud-mobile', label: 'Cloud & Mobile' },
   { href: '/download', label: 'Download' }
 ]
