@@ -1,9 +1,8 @@
-// ── Desktop download links ────────────────────────────────────────────────
-// TODO(downloads): no release hosting is wired up yet. Fill in the macOS `url`
-// (GitHub Releases, R2, …) and `RELEASE_NOTES_URL`; until then the /download
-// page shows the macOS button disabled with an explanation.
-// Windows and Linux are 'soon': no url, no button. Flip `status` and add a url
-// when a build exists.
+// ── Desktop platforms ─────────────────────────────────────────────────────
+// Which platforms exist and whether each is available. The macOS download URL,
+// version and notes are NOT here: they come from the release manifest on
+// Backblaze B2 (lib/releases.ts). Windows and Linux are 'soon': no build, no
+// button. Flip `status` when a build exists.
 
 export type OsKey = 'mac' | 'windows' | 'linux'
 
@@ -11,16 +10,13 @@ export interface Platform {
   key: OsKey
   label: string
   status: 'available' | 'soon'
-  url: string | null
 }
 
 export const PLATFORMS: Platform[] = [
-  { key: 'mac', label: 'macOS', status: 'available', url: null },
-  { key: 'windows', label: 'Windows', status: 'soon', url: null },
-  { key: 'linux', label: 'Linux', status: 'soon', url: null }
+  { key: 'mac', label: 'macOS', status: 'available' },
+  { key: 'windows', label: 'Windows', status: 'soon' },
+  { key: 'linux', label: 'Linux', status: 'soon' }
 ]
-
-export const RELEASE_NOTES_URL: string | null = null
 
 // Server-side, from the User-Agent header, so the right content is in the
 // first HTML with no client-side flash. 'other' = unknown.

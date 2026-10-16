@@ -104,6 +104,19 @@ Configure the Customer Portal at Settings → Billing → Customer portal, and
 list all three products, with both their monthly and annual prices, under "Products" — otherwise upgrades are not offered and
 the portal looks broken for reasons no code change will fix.
 
+### macOS download (`RELEASES_BASE_URL`)
+
+The `/download` page and the stable `/download/mac` redirect read
+`mac/latest.json` from a public Backblaze B2 bucket. Set `RELEASES_BASE_URL` (a
+plain value, not a secret) to the bucket's base URL, for example
+`https://deepcrated-release.s3.us-east-005.backblazeb2.com`. It must be `https`
+and its host must end in `.backblazeb2.com` (one constant,
+`ALLOWED_RELEASE_HOST_SUFFIX` in `lib/releases-parse.ts`, if you ever serve it
+from a custom domain). The manifest is cached for about 5 minutes and validated
+strictly; the download URL is built from the base plus `mac/` plus the validated
+file name, never from the JSON. If the variable is unset, invalid, or the
+manifest cannot be read, the page shows a disabled "Download coming soon" button.
+
 ### The webhook, locally
 
 ```bash

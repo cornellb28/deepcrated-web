@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { Eyebrow } from '@/components/marketing'
-import { ButtonLink } from '@/components/ui'
-import { detectOs, PLATFORMS, RELEASE_NOTES_URL } from '@/lib/downloads'
+import { MacDownload } from '@/components/MacDownload'
+import { detectOs, PLATFORMS } from '@/lib/downloads'
+import { getLatestMac } from '@/lib/releases'
 import { BRAND } from '@/lib/site'
 
 export const metadata: Metadata = { title: 'Download' }
@@ -10,6 +11,8 @@ export const metadata: Metadata = { title: 'Download' }
 export default async function DownloadPage() {
   // No account needed. OS comes from the User-Agent, server-side.
   const os = detectOs((await headers()).get('user-agent'))
+  // Cached ~5 minutes; null (never an exception) when unavailable or invalid.
+  const release = await getLatestMac()
   const mac = PLATFORMS.find((p) => p.key === 'mac')!
   const soon = PLATFORMS.filter((p) => p.status === 'soon')
   const visitorPlatform = PLATFORMS.find((p) => p.key === os)
@@ -40,28 +43,7 @@ export default async function DownloadPage() {
         <h2 id="mac-heading" className="text-[20px] font-bold text-ink">
           {mac.label}
         </h2>
-        <div className="mt-6 flex flex-col items-center gap-3">
-          {mac.url ? (
-            <ButtonLink href={mac.url} variant="pillLg">
-              Download for {mac.label}
-            </ButtonLink>
-          ) : (
-            // TODO(downloads): enable once lib/downloads.ts has a real macOS url.
-            <>
-              <button
-                type="button"
-                disabled
-                aria-describedby="mac-unavailable"
-                className="inline-flex cursor-not-allowed items-center justify-center rounded-full bg-accent px-8 py-3.5 text-[15px] font-semibold text-white opacity-50"
-              >
-                Download for {mac.label}
-              </button>
-              <p id="mac-unavailable" className="max-w-sm text-[13px] text-ink-2">
-                Not available yet — the macOS download hasn’t been published. Check back soon.
-              </p>
-            </>
-          )}
-        </div>
+        <MacDownload release={release} />
       </section>
 
       <section aria-label="Other platforms" className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -75,16 +57,8 @@ export default async function DownloadPage() {
         ))}
       </section>
 
-      <p className="mt-12 text-center text-[13px] text-muted">
-        {RELEASE_NOTES_URL ? (
-          <a href={RELEASE_NOTES_URL} className="underline underline-offset-2 hover:text-ink">
-            Release notes
-          </a>
-        ) : (
-          // TODO(downloads): link release notes once published.
-          'Release notes coming soon.'
-        )}
-      </p>
+      {/* TODO(downloads): older versions. latest.json holds only the latest release, so a
+          versions index (or a listing endpoint) is needed first. */}
     </div>
   )
 }
