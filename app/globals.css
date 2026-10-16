@@ -3,7 +3,7 @@
 /* ── Palette ──────────────────────────────────────────────────────────────
    Lifted from the desktop app so the two surfaces read as one product:
    --background 0 0% 7% (#121212) and the #7f77dd accent come straight from
-   cratecloud-v3/src/renderer/src/assets/main.css, the card/border/text greys
+   deepcrated-v3/src/renderer/src/assets/main.css, the card/border/text greys
    from AccountProfile.tsx. Dark only, like the app — a DJ app that flashes
    white at 1am is a bug, not a theme.                                      */
 @theme {

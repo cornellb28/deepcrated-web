@@ -11,19 +11,23 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button, Notice } from '@/components/ui'
-import { BRAND, DESKTOP_AUTH_CALLBACK } from '@/lib/site'
+import { BRAND } from '@/lib/site'
 
 export function DesktopConnect({
   email,
   emailConfirmed,
   challenge,
   state,
+  callbackBase,
   loginHref
 }: {
   email: string
   emailConfirmed: boolean
   challenge: string
   state: string
+  // Scheme + authority for the client that started this flow, chosen on the
+  // server from a fixed map (lib/handoff-client.ts).
+  callbackBase: string
   loginHref: string
 }) {
   const router = useRouter()
@@ -44,9 +48,9 @@ export function DesktopConnect({
       if (!res.ok) throw new Error('handoff')
       const { key } = (await res.json()) as { key: string }
       setSent(true)
-      // Custom-scheme hand-off to the desktop app, not an internal route.
+      // Custom-scheme hand-off to the app, not an internal route.
       // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-      window.location.href = `${DESKTOP_AUTH_CALLBACK}?key=${encodeURIComponent(key)}&state=${encodeURIComponent(state)}`
+      window.location.href = `${callbackBase}?key=${encodeURIComponent(key)}&state=${encodeURIComponent(state)}`
     } catch {
       setError(true)
     }

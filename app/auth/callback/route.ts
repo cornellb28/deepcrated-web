@@ -3,9 +3,9 @@
 // link. Exchanges the PKCE code for a session and sets the cookies.
 //
 // This URL must be listed in Supabase > Authentication > URL Configuration >
-// Redirect URLs, alongside the desktop app's deepcrated://auth-callback.
-// The two are not interchangeable: Google returns to Supabase, Supabase
-// returns here (web) or to the custom scheme (desktop).
+// Redirect URLs. Google returns to Supabase and Supabase returns here. The
+// app deep links (cratecloud:// and deepcrated://, see lib/handoff-client.ts)
+// are opened by the /desktop/connect page itself, not by a Supabase redirect.
 
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'

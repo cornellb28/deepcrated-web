@@ -7,7 +7,7 @@
 // `server-only` makes an accidental import from a client component a BUILD
 // failure rather than a shipped key. Keep it as the first line.
 //
-// This key must never reach the desktop app. cratecloud-v3/.env.example says
+// This key must never reach the desktop app. deepcrated-v3/.env.example says
 // so explicitly, and it holds only MAIN_VITE_SUPABASE_URL + the anon key.
 
 import 'server-only'

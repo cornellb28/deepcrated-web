@@ -1,7 +1,7 @@
 # deepcrated-web
 
 The payments and account website for DeepCrated. Next.js 16 (App Router) on
-Vercel, sharing one Supabase project with the `cratecloud-v3` desktop app.
+Vercel, sharing one Supabase project with the `deepcrated-v3` desktop app.
 
 **The desktop app is free and gates nothing.** This site sells the one paid
 thing that exists: the cloud sync / mobile subscription. It is also the only
@@ -69,7 +69,7 @@ npm run dev
 ```
 
 `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are the same
-pair the desktop app uses (`MAIN_VITE_`-prefixed in `cratecloud-v3/.env`).
+pair the desktop app uses (`MAIN_VITE_`-prefixed in `deepcrated-v3/.env`).
 Everything else is new and server-only.
 
 ### Supabase dashboard
@@ -170,7 +170,7 @@ what stops a retryable card from cutting a DJ off mid-set.
 ## Security
 
 - `SUPABASE_SERVICE_ROLE_KEY` and `STRIPE_SECRET_KEY` are **server-only** and
-  must never appear in `cratecloud-v3`. `lib/supabase/admin.ts` carries
+  must never appear in `deepcrated-v3`. `lib/supabase/admin.ts` carries
   `server-only` so an accidental client import is a build failure.
 - On Vercel, scope **live** keys to Production only. Preview deployments get
   their environment too; use Stripe test keys there and turn on deployment
