@@ -9,10 +9,10 @@
 // Do NOT set policyReviewed = true until the owner has reviewed this policy.
 
 export const POLICY_CONFIG = {
-  lastUpdated: '2026-10-09',
-  companyName: '[CONFIRM: legal entity or owner name]',
-  contactEmail: '[CONFIRM: contact email]',
-  mailingAddress: '[CONFIRM: mailing address]',
+  lastUpdated: '2026-10-17',
+  companyName: 'Benson Global Holdings LLC',
+  contactEmail: 'email@deepcrated.com',
+  mailingAddress: '14864 Fishtrap Rd Aubrey, TX 76227',
   policyReviewed: false
 }
 
@@ -32,9 +32,10 @@ export interface Section {
 export const SUMMARY: string[] = [
   'The DeepCrated desktop app is local-first. Your music files and library stay on your computer unless you choose to use cloud sync or mobile.',
   'Signing in is optional. You only need an account for cloud sync and the mobile app.',
-  'Two settings in the desktop app can send data off your device, and both are your choice: "Identify tracks online" and "Contribute anonymous stats". Both are off by default.',
+  'Three kinds of settings in the desktop app can send data off your device, and all are your choice: "Identify tracks online", "Contribute anonymous stats" and AI features. All are off by default.',
+  'AI features are optional and off by default. They run in the cloud, not on your device. If you turn one on, the data it needs, which can include track details, crates, listening and set history and audio files, is sent to our AI provider to process your request. We do not use your data to train AI models.',
   'If you subscribe to a cloud plan, we store your library details and, if you use cloud audio storage, copies of your audio files, so you can sync and listen on mobile.',
-  'We do not sell your personal information. [CONFIRM: owner approves this statement]'
+  'We do not sell your personal information and we do not share it for cross-context advertising.'
 ]
 
 export const SECTIONS: Section[] = [
@@ -72,7 +73,7 @@ export const SECTIONS: Section[] = [
       },
       {
         type: 'p',
-        text: '2.5 Optional: Contribute anonymous stats. If you turn this on (Settings > Privacy), the app sends anonymous usage events to our database. Only a fixed list of events can be sent: session start (with a library-size range), crate created, track added to a crate, track tagged, and track played. Each event carries an anonymous install ID, a timestamp rounded to the hour, the app version, and, on track events, an identifier for the track derived from the recording (such as a standard recording code or an audio fingerprint ID). It never includes file names, file paths, folder names, anything you type, or your account. Tracks and crates you mark private are never included. Turning the setting off stops collection, clears what is queued on your device and discards the install ID. It is off by default. Retention: [CONFIRM: how long anonymous stats are kept]'
+        text: '2.5 Optional: Contribute anonymous stats. If you turn this on (Settings > Privacy), the app sends anonymous usage events to our database. Only a fixed list of events can be sent: session start (with a library-size range), crate created, track added to a crate, track tagged, and track played. Each event carries an anonymous install ID, a timestamp rounded to the hour, the app version, and, on track events, an identifier for the track derived from the recording (such as a standard recording code or an audio fingerprint ID). It never includes file names, file paths, folder names, anything you type, or your account. Tracks and crates you mark private are never included. Turning the setting off stops collection, clears what is queued on your device and discards the install ID. It is off by default. Retention: 60 Days'
       },
       {
         type: 'p',
@@ -84,11 +85,21 @@ export const SECTIONS: Section[] = [
       },
       {
         type: 'p',
-        text: '2.8 Website. When you visit deepcrated.com, our hosting provider and servers may log your IP address, browser type and pages requested for security and operation. We use Vercel Web Analytics and Vercel Speed Insights to measure page visits and site performance. [CONFIRM: what Vercel Web Analytics and Speed Insights collect, and whether they use cookies] If you sign in to the website, we set cookies that keep you signed in. We do not use advertising cookies.'
+        text: '**2.8 Website.** When you visit deepcrated.com, our hosting provider and servers may log your IP address, browser type, device information and pages requested, for security, site operation and troubleshooting. We use Vercel Web Analytics to understand website traffic, visitor behavior and usage patterns, such as page views and referral sources. It does not use cookies. Instead, it identifies visitors with an anonymized hash generated from the request, which resets automatically every 24 hours, so visitors are not tracked across different days or across other websites. We use Vercel Speed Insights to measure real-user performance data (such as page-loading speed and responsiveness) from real-world device sessions on our website. If you sign in to the website, we set cookies that keep you signed in. We do not use advertising cookies.'
       },
       {
         type: 'p',
         text: '2.9 Waitlist. If you join the waitlist we collect your email address, and, if you choose to give them, what kind of DJ you are and the DJ software you use. The DJ type and software are stored only in our own database. Your email address, the source ("waitlist") and a user group are also sent to Loops, our email provider, so we can send you waitlist updates and launch news.'
+      },
+      // TODO(legal): DRAFT wording for owner review. AI features are planned
+      // but not built yet, so this section describes the intended design.
+      // Re-check every statement (data sent, no-training, retention, provider)
+      // against the real implementation and the provider's current terms
+      // before this section is published. Remove this section if no AI
+      // feature ships at launch.
+      {
+        type: 'p',
+        text: '2.10 Optional: AI features. AI features are off by default and you turn each one on separately. Unlike the rest of the desktop app, they are processed in the cloud, which means the data a feature needs leaves your computer when you use it. Depending on the feature, that data can include track details (title, artist, tags, BPM, key, notes), your crates, your listening and set history, and audio files. We tell you in the app, before you turn a feature on, what it will send. We send only what the feature needs to answer your request. The data goes to our AI provider ([CONFIRM: AI provider name]), which processes it on our behalf. We do not use your data to train AI models, and our agreement with the provider does not allow it to train on your data. [CONFIRM: verify against the provider\'s current API terms] We do not keep your audio files, track details or history after a request is complete, other than results you choose to save to your library. The provider may keep requests for a short period for security and abuse monitoring. [CONFIRM: provider retention period] Turning a feature off stops any further data being sent. Results you saved stay in your library until you delete them.'
       }
     ]
   },
@@ -129,7 +140,7 @@ export const SECTIONS: Section[] = [
     blocks: [
       {
         type: 'p',
-        text: 'To provide the app, accounts, sync and mobile; to process payments and manage subscriptions; to keep the service secure and prevent abuse; to send service messages (receipts, payment problems, plan changes, deletion warnings); to send waitlist updates and launch news if you signed up, which you can leave at any time; to fix bugs and improve features; and to meet legal obligations. We do not use your music files for advertising. [CONFIRM: owner decides the policy on AI features and states it here]'
+        text: 'To provide the app, accounts, sync and mobile; to process payments and manage subscriptions; to keep the service secure and prevent abuse; to send service messages (receipts, payment problems, plan changes, deletion warnings); to send waitlist updates and launch news if you signed up, which you can leave at any time; to fix bugs and improve features; and to meet legal obligations. If you turn on an AI feature, we also use the data it needs to process your request with that feature. AI features are optional and off by default, and we use your data only to provide the feature you asked for. We do not use your music files for advertising, and we do not use your data to train AI models.'
       }
     ]
   },
@@ -150,12 +161,13 @@ export const SECTIONS: Section[] = [
           'Vercel: website hosting, Web Analytics and Speed Insights.',
           'Loops: waitlist email. It receives your email address, the source and a user group.',
           'Google: only if you choose Sign in with Google.',
+          '[CONFIRM: AI provider name]: only if you turn on an AI feature. It processes the data that feature needs, on our behalf and under our instructions, and may not use it to train models.',
           'AcoustID and MusicBrainz: only if you turn on "Identify tracks online".'
         ]
       },
       {
         type: 'p',
-        text: 'We may also disclose information if required by law or to protect rights and safety. If DeepCrated is ever sold or merged, your information may transfer, and we will tell you first. We do not sell personal information and we do not share it for cross-context advertising. [CONFIRM: owner approves this statement]'
+        text: 'We may also disclose information if required by law or to protect rights and safety. If DeepCrated is ever sold or merged, your information may transfer to the new owner. We will notify you by email or in the app before it does, and tell you about any choices you have. We do not sell your personal information or share it for cross-context behavioral advertising, and we have not done so in the past 12 months. The service providers listed above process data only on our behalf and may not use it for their own purposes.'
       }
     ]
   },
@@ -168,6 +180,7 @@ export const SECTIONS: Section[] = [
         items: [
           'Use the desktop app without an account.',
           'Turn "Identify tracks online" and "Contribute anonymous stats" on or off at any time in Settings > Privacy.',
+          'Turn each AI feature on or off at any time. They are all off until you choose otherwise, and nothing is sent to our AI provider while a feature is off.',
           'Sign out at any time, which removes the saved session from your device.',
           'Remove tracks from the cloud. They are permanently deleted from our storage 14 days after you delete them.',
           'Cancel your subscription at any time from your account.',
@@ -192,8 +205,9 @@ export const SECTIONS: Section[] = [
           'After you cancel: your files stay in the cloud, read-only, for 60 days, then are permanently deleted.',
           'Deleted accounts: removed after 60 days. You can ask us to delete your account and data immediately.',
           'Information you delete in the app or ask us to delete: removed from active systems promptly, and from backups within [CONFIRM: backup retention].',
-          'Server logs: [CONFIRM: log retention].',
-          'Anonymous stats: [CONFIRM: stats retention].'
+          'AI feature requests: not kept by us once the request is complete, apart from results you save. Our AI provider may keep them briefly for security and abuse monitoring, for up to 30 days.',
+          'Server logs: kept for up to 30 days.',
+          'Anonymous stats: kept for up to 60 days.'
         ]
       }
     ]
@@ -214,7 +228,7 @@ export const SECTIONS: Section[] = [
     blocks: [
       {
         type: 'p',
-        text: 'Our database and authentication provider (Supabase) stores data in the United States (AWS us-east-1). [CONFIRM: regions for Vercel, Backblaze B2 and Loops] If you use DeepCrated from outside the US, your information will be transferred to and processed in the US.'
+        text: 'Our database and authentication provider (Supabase) stores data in the United States (AWS us-east-1). [CONFIRM: regions for Vercel, Backblaze B2, Loops and the AI provider] If you use DeepCrated from outside the US, your information will be transferred to and processed in the US.'
       }
     ]
   },
